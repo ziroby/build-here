@@ -21,6 +21,31 @@ fn main() {
             command: "cargo",
             default: &vec!["build".to_string()],
         },
+        Alternatives {
+            test_file: "mvnw",
+            command: "./mvnw",
+            default: &vec!["install".to_string()],
+        },
+        Alternatives {
+            test_file: "pom.xml",
+            command: "mvn",
+            default: &vec!["install".to_string()],
+        },
+        Alternatives {
+            test_file: "build.sbt",
+            command: "sbt",
+            default: &vec!["publishLocal".to_string()],
+        },
+        Alternatives {
+            test_file: "build.gradle",
+            command: "gradle",
+            default: &vec!["build".to_string()],
+        },
+        Alternatives {
+            test_file: "package.json",
+            command: "npm",
+            default: &vec!["install".to_string(), "test".to_string()],
+        },
     ];
 
     let found = alternatives
