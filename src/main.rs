@@ -3,32 +3,53 @@ use std::path::Path;
 use std::process;
 use std::process::{Command, Stdio};
 
+struct Alternatives<'a> {
+    test_file: &'a str,
+    command: &'a str,
+    default: &'a Vec<String>,
+}
+
 fn main() {
-    let command;
-    let default;
-    let actual_args;
-    if Path::new("./gradlew").exists() {
-        command = "./gradlew";
-        default = [String::from("build")];
-    } else if Path::new("./Cargo.toml").exists() {
-        command = "cargo";
-        default = [String::from("build")];
-    } else {
-        eprintln!("Unknown build directory");
-        process::exit(1);
+    let alternatives = [
+        Alternatives {
+            test_file: "gradlew",
+            command: "./gradlew",
+            default: &vec!["build".to_string()],
+        },
+        Alternatives {
+            test_file: "Cargo.toml",
+            command: "cargo",
+            default: &vec!["build".to_string()],
+        },
+    ];
+
+    let found = alternatives
+        .iter()
+        .find(|alt| Path::new(alt.test_file).exists());
+
+    match found {
+        Some(alt) => run_command(alt),
+        None => {
+            eprintln!("Unknown build directory");
+            process::exit(1);
+        }
     }
+}
+
+fn run_command(alt: &Alternatives) {
+    let actual_args;
 
     let args: Vec<String> = env::args().collect();
 
     if args.len() != 1 {
         actual_args = &args[1..]
     } else {
-        actual_args = &default
+        actual_args = &alt.default[..]
     }
 
-    println!("Running {} {}", command, actual_args.join(" "));
+    println!("Running {} {}", alt.command, actual_args.join(" "));
 
-    let mut process = Command::new(command)
+    let mut process = Command::new(alt.command)
         .args(actual_args)
         .stdin(Stdio::null())
         .stdout(Stdio::inherit())
