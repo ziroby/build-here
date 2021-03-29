@@ -3,7 +3,7 @@ use std::path::Path;
 use std::process;
 use std::process::{Command, Stdio};
 
-struct Alternatives<'a> {
+struct Alternative<'a> {
     test_file: &'a str,
     command: &'a str,
     default: &'a Vec<String>,
@@ -13,42 +13,42 @@ fn main() {
     let alternatives = [
         // Make goes first, so you can have a makefile that calls
         // another type of build
-        Alternatives {
+        Alternative {
             test_file: "Makefile",
             command: "make",
             default: &vec!["all".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "gradlew",
             command: "./gradlew",
             default: &vec!["build".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "Cargo.toml",
             command: "cargo",
             default: &vec!["build".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "mvnw",
             command: "./mvnw",
             default: &vec!["install".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "pom.xml",
             command: "mvn",
             default: &vec!["install".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "build.sbt",
             command: "sbt",
             default: &vec!["publishLocal".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "build.gradle",
             command: "gradle",
             default: &vec!["build".to_string()],
         },
-        Alternatives {
+        Alternative {
             test_file: "package.json",
             command: "npm",
             default: &vec!["install".to_string(), "test".to_string()],
@@ -68,7 +68,7 @@ fn main() {
     }
 }
 
-fn run_command(alt: &Alternatives) {
+fn run_command(alt: &Alternative) {
     let actual_args;
 
     let args: Vec<String> = env::args().collect();
