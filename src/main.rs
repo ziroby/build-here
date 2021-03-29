@@ -11,6 +11,13 @@ struct Alternatives<'a> {
 
 fn main() {
     let alternatives = [
+        // Make goes first, so you can have a makefile that calls
+        // another type of build
+        Alternatives {
+            test_file: "Makefile",
+            command: "make",
+            default: &vec!["all".to_string()],
+        },
         Alternatives {
             test_file: "gradlew",
             command: "./gradlew",
