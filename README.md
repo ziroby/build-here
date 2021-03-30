@@ -1,6 +1,6 @@
-# Build Here (`bh`) &mdash; A universal build tool
+# Build Here &mdash; A universal build tool
 
-The `bh` (Build Here) program is a simple tool which looks at the
+Build Here is a simple tool which looks at the
 current directory and builds it, using the correct tool. This is
 especially useful for polyglots who change language from one task to
 the next.

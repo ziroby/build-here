@@ -1,4 +1,4 @@
-# Contributing to Build Here (`bh`)
+# Contributing to Build Here
 
 Contribution to this program are welcome!
 
