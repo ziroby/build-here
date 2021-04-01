@@ -51,7 +51,7 @@ fn main() {
         Alternative {
             test_file: "package.json",
             command: "npm",
-            default: &vec!["install".to_string(), "test".to_string()],
+            default: &vec!["install".to_string()],
         },
     ];
 
@@ -83,7 +83,7 @@ fn run_command(alt: &Alternative) {
 
     let mut process = Command::new(alt.command)
         .args(actual_args)
-        .stdin(Stdio::null())
+        .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
         .spawn()
